@@ -86,8 +86,50 @@ def depthFirstSearch(problem):
     print "Is the start a goal?", problem.isGoalState(problem.getStartState())
     print "Start's successors:", problem.getSuccessors(problem.getStartState())
     """
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    from game import Directions
+
+    # create sets
+    closed = set() # will contain tuples of (successor, action, stepCost)
+    fringe = [] # will contain tuples of (successor, action, stepCost)
+
+    # check if the start is also the desired goal
+    if problem.isGoalState(problem.getStartState()):
+        return closed
+
+    # add the starting position, with a direction and cost that is not needed
+    fringe.append((problem.getStartState(), Directions.STOP, 0))
+
+    # keep checking every option, and go depth first by poping from the list
+    while len(fringe) > 0:
+        # pop from the list stack
+        current = fringe.pop()
+
+        # continue if already closed set
+        if current in closed:
+            continue
+        
+        # check if goal state, with the position
+        if problem.isGoalState(current[0]):
+            # end goal is found, so break the while loop
+            break
+
+        # add to closed set
+        closed.add((current))
+
+        # add successors, that have not been closed yet, search for succesors by position
+        # getSuccessors returns a list of tuples in the form of (successor, action, stepCost)
+        for successor in problem.getSuccessors(current[0]):
+            if (successor not in closed):
+                # add position to stack
+                fringe.append(successor)
+
+    # remove start from closed list, since it does not need it anymore
+    closed.remove((problem.getStartState(), Directions.STOP, 0))
+
+    # currently the closed array contains tuples of (successor, action, stepCost), 
+    # the return value that is expected only needs a list of directions, which is the second tuple value
+    print map(lambda visit: visit[1], closed)
+    return map(lambda visit: visit[1], closed)
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
