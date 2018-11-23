@@ -118,8 +118,14 @@ def depthFirstSearch(problem):
 
         # add successors, that have not been closed yet, search for succesors by position
         # getSuccessors returns a list of tuples in the form of (successor, action, stepCost)
-        for successor in problem.getSuccessors(current[0]):
-            if (successor not in closed):
+        successors = problem.getSuccessors(current[0])
+        print "current"
+        print current
+        print "successors"
+        print successors
+        for successor in successors:
+            # if position is not in the closed list
+            if (successor[0] not in map(lambda visit: visit[0], closed)):
                 # add position to stack
                 fringe.append(successor)
 
@@ -128,7 +134,6 @@ def depthFirstSearch(problem):
 
     # currently the closed array contains tuples of (successor, action, stepCost), 
     # the return value that is expected only needs a list of directions, which is the second tuple value
-    print map(lambda visit: visit[1], closed)
     return map(lambda visit: visit[1], closed)
 
 def breadthFirstSearch(problem):
