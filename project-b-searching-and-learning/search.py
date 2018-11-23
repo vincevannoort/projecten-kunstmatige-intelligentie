@@ -102,35 +102,31 @@ def depthFirstSearch(problem):
     # keep checking every option, and go depth first by poping from the list
     while len(fringe) > 0:
         # pop from the list stack
-        current = fringe.pop() # form (successor, path, stepCost)
+        position, path, stepCost = fringe.pop() # form (successor, path, stepCost)
 
         # continue if already closed set
-        if current[0] in closed:
+        if position in closed:
             continue
         
         # check if goal state, with the position
-        if problem.isGoalState(current[0]):
+        if problem.isGoalState(position):
             # end goal is found, so return the path taken
-            return current[1]
+            return path
 
         # add to closed set
-        closed.add(current[0])
+        closed.add(position)
 
         # add successors, that have not been closed yet, search for succesors by position
         # getSuccessors returns a list of tuples in the form of (successor, path, stepCost)
-        successors = problem.getSuccessors(current[0])
+        successors = problem.getSuccessors(position)
 
-        for position, action, stepCost in successors:
+        for positionSuc, actionSuc, stepCostSuc in successors:
             # if position is not in the closed list
-            if (position not in closed):
+            if (positionSuc not in closed):
                 # add position to stack
-                fringe.append((position, current[1] + [action], stepCost))
+                fringe.append((positionSuc, path + [actionSuc], stepCostSuc))
 
-    # remove start from closed list, since it does not need it anymore
-    # closed.remove((problem.getStartState(), [Directions.STOP], 0))
-
-    # currently the closed array contains tuples of (successor, path, stepCost), 
-    # the return value that is expected only needs a list of directions, which is the second tuple value
+    # if no solution is found, return a empty list
     return []
 
 def breadthFirstSearch(problem):
