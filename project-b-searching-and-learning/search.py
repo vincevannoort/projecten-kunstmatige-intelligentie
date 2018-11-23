@@ -89,52 +89,49 @@ def depthFirstSearch(problem):
     from game import Directions
 
     # create sets
-    closed = set() # will contain tuples of (successor, action, stepCost)
-    fringe = [] # will contain tuples of (successor, action, stepCost)
+    closed = set() # will contain positions
+    fringe = [] # will contain tuples of (successor, path, stepCost)
 
     # check if the start is also the desired goal
     if problem.isGoalState(problem.getStartState()):
         return closed
 
     # add the starting position, with a direction and cost that is not needed
-    fringe.append((problem.getStartState(), Directions.STOP, 0))
+    fringe.append((problem.getStartState(), [], 0))
 
     # keep checking every option, and go depth first by poping from the list
     while len(fringe) > 0:
         # pop from the list stack
-        current = fringe.pop()
+        current = fringe.pop() # form (successor, path, stepCost)
 
         # continue if already closed set
-        if current in closed:
+        if current[0] in closed:
             continue
         
         # check if goal state, with the position
         if problem.isGoalState(current[0]):
-            # end goal is found, so break the while loop
-            break
+            # end goal is found, so return the path taken
+            return current[1]
 
         # add to closed set
-        closed.add((current))
+        closed.add(current[0])
 
         # add successors, that have not been closed yet, search for succesors by position
-        # getSuccessors returns a list of tuples in the form of (successor, action, stepCost)
+        # getSuccessors returns a list of tuples in the form of (successor, path, stepCost)
         successors = problem.getSuccessors(current[0])
-        print "current"
-        print current
-        print "successors"
-        print successors
-        for successor in successors:
+
+        for position, action, stepCost in successors:
             # if position is not in the closed list
-            if (successor[0] not in map(lambda visit: visit[0], closed)):
+            if (position not in closed):
                 # add position to stack
-                fringe.append(successor)
+                fringe.append((position, current[1] + [action], stepCost))
 
     # remove start from closed list, since it does not need it anymore
-    closed.remove((problem.getStartState(), Directions.STOP, 0))
+    # closed.remove((problem.getStartState(), [Directions.STOP], 0))
 
-    # currently the closed array contains tuples of (successor, action, stepCost), 
+    # currently the closed array contains tuples of (successor, path, stepCost), 
     # the return value that is expected only needs a list of directions, which is the second tuple value
-    return map(lambda visit: visit[1], closed)
+    return []
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
