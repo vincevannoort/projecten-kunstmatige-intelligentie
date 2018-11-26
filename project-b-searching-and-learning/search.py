@@ -87,13 +87,13 @@ def depthFirstSearch(problem):
     print "Start's successors:", problem.getSuccessors(problem.getStartState())
     """
     closed = set() # will contain positions
-    fringe = [] # will contain tuples of (successor, path, stepCost)
+    fringe = util.Stack() # will contain tuples of (successor, path, stepCost)
 
     # add the starting position, with a empty path and cost that is not needed
-    fringe.append((problem.getStartState(), []))
+    fringe.push((problem.getStartState(), []))
 
     # keep checking every option, and go depth first by poping from the list
-    while len(fringe) > 0:
+    while not fringe.isEmpty():
         # pop from the list stack
         position, path = fringe.pop()
 
@@ -112,11 +112,11 @@ def depthFirstSearch(problem):
         # add successors, that have not been closed yet, search for succesors by position
         # getSuccessors returns a list of tuples in the form of (successor, path, stepCost)
         successors = problem.getSuccessors(position)
-        for positionSuc, actionSuc, stepCostSuc in successors:
+        for positionSuc, actionSuc, _ in successors:
             # if position is not in the closed list
             if (positionSuc not in closed):
                 # add append next action to current path
-                fringe.append((positionSuc, path + [actionSuc]))
+                fringe.push((positionSuc, path + [actionSuc]))
 
     # if no solution is found, return a empty list
     return []
