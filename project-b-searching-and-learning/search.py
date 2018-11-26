@@ -89,17 +89,13 @@ def depthFirstSearch(problem):
     closed = set() # will contain positions
     fringe = [] # will contain tuples of (successor, path, stepCost)
 
-    # check if the start is also the desired goal
-    if problem.isGoalState(problem.getStartState()):
-        return closed
-
     # add the starting position, with a empty path and cost that is not needed
-    fringe.append((problem.getStartState(), [], 0))
+    fringe.append((problem.getStartState(), []))
 
     # keep checking every option, and go depth first by poping from the list
     while len(fringe) > 0:
         # pop from the list stack
-        position, path, stepCost = fringe.pop()
+        position, path = fringe.pop()
 
         # continue if already closed set
         if position in closed:
@@ -120,7 +116,7 @@ def depthFirstSearch(problem):
             # if position is not in the closed list
             if (positionSuc not in closed):
                 # add append next action to current path
-                fringe.append((positionSuc, path + [actionSuc], stepCostSuc))
+                fringe.append((positionSuc, path + [actionSuc]))
 
     # if no solution is found, return a empty list
     return []
