@@ -123,13 +123,88 @@ def depthFirstSearch(problem):
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    
+    closed = set() # will contain positions
+    fringe = util.Queue() # will contain tuples of (successor, path, stepCost)
+
+    # check if the start is also the desired goal
+    if problem.isGoalState(problem.getStartState()):
+        return closed
+
+    # add the starting position, with a empty path and cost that is not needed
+    fringe.push((problem.getStartState(), [], 0))
+
+    # keep checking every option, and go depth first by poping from the list
+    while (not fringe.isEmpty()) :
+        # pop from the queue
+        position, path, stepCost = fringe.pop()
+
+        # continue if already closed set
+        if position in closed:
+            continue
+        
+        # check if goal state, with the position
+        if problem.isGoalState(position):
+            # end goal is found, so return the path taken
+            return path
+
+        # add to closed set
+        closed.add(position)
+
+        # add successors, that have not been closed yet, search for succesors by position
+        # getSuccessors returns a list of tuples in the form of (successor, path, stepCost)
+        successors = problem.getSuccessors(position)
+        for positionSuc, actionSuc, stepCostSuc in successors:
+            # if position is not in the closed list
+            if (positionSuc not in closed):
+                # add next action to current path
+                fringe.push((positionSuc, path + [actionSuc], stepCostSuc))
+
+    # if no solution is found, return a empty list
+    return []
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+
+    closed = set() # will contain positions
+    fringe = util.PriorityQueue() # will contain tuples of (successor, path, stepCost)
+
+    # check if the start is also the desired goal
+    if problem.isGoalState(problem.getStartState()):
+        return closed
+
+    # add the starting position, with a empty path and cost that is zero, and the cost
+    fringe.push((problem.getStartState(), [], 0), 0)
+
+    # keep checking every option, and go depth first by poping from the list
+    while (not fringe.isEmpty()) :
+        # pop from the queue
+        position, path, stepCost = fringe.pop()
+
+        # continue if already closed set
+        if position in closed:
+            continue
+        
+        # check if goal state, with the position
+        if problem.isGoalState(position):
+            # end goal is found, so return the path taken
+            return path
+
+        # add to closed set
+        closed.add(position)
+
+        # add successors, that have not been closed yet, search for succesors by position
+        # getSuccessors returns a list of tuples in the form of (successor, path, stepCost)
+        successors = problem.getSuccessors(position)
+        for positionSuc, actionSuc, stepCostSuc in successors:
+            # if position is not in the closed list
+            if (positionSuc not in closed):
+                # add next action to current path and add to prorityQueue
+                fringe.push((positionSuc, path + [actionSuc], stepCostSuc), stepCostSuc)
+
+    # if no solution is found, return a empty list
+    return []
+
 
 def nullHeuristic(state, problem=None):
     """
