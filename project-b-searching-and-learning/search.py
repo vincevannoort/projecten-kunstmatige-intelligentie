@@ -79,12 +79,12 @@ def genericSearchMethod(problem, fringe):
     closed = set() # will contain positions
 
     # add the starting position and with am empty path
-    fringe.push((problem.getStartState(), [], 0))
+    fringe.push((problem.getStartState(), [], 0, 0))
 
     # keep checking every option, and go depth first by poping from the list
     while not fringe.isEmpty():
         # pop from the list stack
-        position, path, _ = fringe.pop()
+        position, path, _, totalCost = fringe.pop()
 
         # continue if already closed set
         if position in closed:
@@ -105,7 +105,7 @@ def genericSearchMethod(problem, fringe):
             # if position is not in the closed list
             if (positionSuc not in closed):
                 # add append next action to current path
-                fringe.push((positionSuc, path + [actionSuc], stepCostSuc))
+                fringe.push((positionSuc, path + [actionSuc], stepCostSuc, totalCost + stepCostSuc))
 
     # if no solution is found, return a empty list
     return []
@@ -147,8 +147,9 @@ def nullHeuristic(state, problem=None):
 
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+
+    fringe = util.PriorityQueueWithFunction(lambda item: heuristic(item[0], problem) + item[3])
+    return genericSearchMethod(problem, fringe)
 
 
 # Abbreviations
