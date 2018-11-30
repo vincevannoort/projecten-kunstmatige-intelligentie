@@ -58,9 +58,20 @@ class ValueIterationAgent(ValueEstimationAgent):
         """
           Compute the Q-value of action in state from the
           value function stored in self.values.
+          Q*(s,a) = sum[s'] T(s,a,s')[R(s,a,s')+a.V_{k}(s)]
+          T(s,a,s')     => getTransitionStatesAndProbs(state, action) 
+          [R(s,a,s')    => getReward(state, action, tstate)
+          a             => self.discount
+          V_{k}(s)]     => self.getValue(tstate)
+
+          Map function  => [R(s,a,s')+a.V_{k}(s)] 
+
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        value = self.getValue(state)
+        discount = self.discount
+        reward = self.values
+        
 
     def computeActionFromValues(self, state):
         """
