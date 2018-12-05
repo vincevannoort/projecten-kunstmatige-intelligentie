@@ -45,6 +45,16 @@ class ValueIterationAgent(ValueEstimationAgent):
 
         # Write value iteration code here
         "*** YOUR CODE HERE ***"
+        states = mdp.getStates()
+        for _ in range(0, iterations):
+            new_values = util.Counter()
+            for state in states:
+                if not mdp.isTerminal(state):
+                    action = self.getAction(state)
+                    new_values[state] = self.getQValue(state, action)
+            self.values = new_values
+        
+
 
 
     def getValue(self, state):
@@ -88,11 +98,10 @@ class ValueIterationAgent(ValueEstimationAgent):
           terminal state, you should return None.
         """
         "*** YOUR CODE HERE ***"
-        if self.mdp.isTerminal(state):
+        actions = self.mdp.getPossibleActions(state)
+        if len(actions) <= 0:
             return None
-        else:
-            actions = self.mdp.getPossibleActions(state)
-            return max(actions, key=lambda action: self.computeQValueFromValues(state, action))
+        return max(actions, key=lambda action: self.computeQValueFromValues(state, action))
 
         
 

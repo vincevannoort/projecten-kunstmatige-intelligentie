@@ -52,16 +52,8 @@ Q-Values at iteration 0 for action west are correct.
 """
 
 
-Values at iteration 1 are NOT correct.
-   Student solution:
- values_k_1: """
-            0.0000
-            0.0000
-            0.0000
-"""
-
-
-   Correct solution:
+Values at iteration 1 are correct.
+   Student/correct solution:
  values_k_1: """
           -10.0000
             0.0000
@@ -95,8 +87,16 @@ Q-Values at iteration 1 for action east are correct.
 """
 
 
-Q-Values at iteration 1 for action exit are correct.
-   Student/correct solution:
+Q-Values at iteration 1 for action exit are NOT correct.
+   Student solution:
+ q_values_k_1_action_exit: """
+          -15.0000
+           illegal
+           15.0000
+"""
+
+
+   Correct solution:
  q_values_k_1_action_exit: """
           -10.0000
            illegal
