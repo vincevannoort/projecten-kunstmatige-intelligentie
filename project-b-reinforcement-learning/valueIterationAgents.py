@@ -82,7 +82,7 @@ class ValueIterationAgent(ValueEstimationAgent):
     def computeQValueFromValue(self, state, action, tstate_prob):
         tstate = tstate_prob[0]
         prob = tstate_prob[1]
-        value = self.getValue(state)
+        value = self.getValue(tstate)
         discount = self.discount
         reward = self.mdp.getReward(state, action, tstate)
 
