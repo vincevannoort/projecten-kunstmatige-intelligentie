@@ -25,37 +25,57 @@ def question2():
     return answerDiscount, answerNoise
 
 def question3a():
-    answerDiscount = None
-    answerNoise = None
-    answerLivingReward = None
+    # Prefer the close exit (+1), risking the cliff (-10)
+    # Discount high, so takes the risks since other path is too long
+    # Noise low, so the risk of the cliff path is none
+    # LivingReward low, so it takes the shortest terminal state
+    answerDiscount = 0.2
+    answerNoise = 0
+    answerLivingReward = 0
     return answerDiscount, answerNoise, answerLivingReward
     # If not possible, return 'NOT POSSIBLE'
 
 def question3b():
-    answerDiscount = None
-    answerNoise = None
-    answerLivingReward = None
+    # Prefer the close exit(+1), but avoiding the cliff(-10)
+    # Discount high, so it prefers shortest terminal state
+    # Noise medium, so it does not prefer the cliff path
+    # LivingReward low, so it takes the shortest terminal state
+    answerDiscount = 0.3
+    answerNoise = 0.3
+    answerLivingReward = 0
     return answerDiscount, answerNoise, answerLivingReward
     # If not possible, return 'NOT POSSIBLE'
 
 def question3c():
-    answerDiscount = None
-    answerNoise = None
-    answerLivingReward = None
+    # Prefer the distant exit(+10), risking the cliff(-10)
+    # Discount medium, so it prefers the distant terminal state with the highest reward
+    # Noise low, so there is no risk at the cliff
+    # LivingReward low, can't be higher than the terminal state 
+    answerDiscount = 0.5    
+    answerNoise = 0
+    answerLivingReward = 0
     return answerDiscount, answerNoise, answerLivingReward
     # If not possible, return 'NOT POSSIBLE'
 
 def question3d():
-    answerDiscount = None
-    answerNoise = None
-    answerLivingReward = None
+    # Prefer the distant exit(+10), avoiding the cliff(-10)
+    # Discount low, so it prefers a longer route with higher reward
+    # Noise medium, so it does not risk the cliff route
+    # LivingReward low, can't be higher than the terminal state
+    answerDiscount = 0.9
+    answerNoise = 0.3
+    answerLivingReward = 0
     return answerDiscount, answerNoise, answerLivingReward
     # If not possible, return 'NOT POSSIBLE'
 
 def question3e():
-    answerDiscount = None
-    answerNoise = None
-    answerLivingReward = None
+    # Avoid both exits and the cliff(so an episode should never terminate)
+    # Discount low, does not matter
+    # Noise medium, does not matter
+    # LivingReward high, so it prefers not to terminate
+    answerDiscount = 0
+    answerNoise = 0
+    answerLivingReward = 10
     return answerDiscount, answerNoise, answerLivingReward
     # If not possible, return 'NOT POSSIBLE'
 
