@@ -134,7 +134,7 @@ def uniformCostSearch(problem):
     """
     # will contain tuples of (successor, path, stepCost)
     # the priority in this priorityqueue is the stepCost
-    fringe = util.PriorityQueueWithFunction(lambda item: item[2]) 
+    fringe = util.PriorityQueueWithFunction(lambda item: item[3]) 
 
     return genericSearchMethod(problem, fringe)
 
