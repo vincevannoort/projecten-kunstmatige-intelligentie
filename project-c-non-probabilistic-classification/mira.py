@@ -60,8 +60,50 @@ class MiraClassifier:
         datum is a counter from features to values for those features
         representing a vector of values.
         """
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+
+        # Implement trainAndTune in mira.py. This method should train a MIRA classifier using each value of C in Cgrid. 
+        # Evaluate accuracy on the held-out validation set for each C and choose the C with the highest validation accuracy. 
+        # In case of ties, prefer the lowest value of C. Test your MIRA implementation with
+        weights = []
+
+        for C in Cgrid:
+            for iteration in range(self.max_iterations):
+                print "Starting iteration ", iteration, "..."
+                for i in range(len(trainingData)):
+                    data = trainingData[i]
+                    classifiedLabel = self.classify(data)[0]
+                    correctLabel = trainingLabels[i]
+
+                    if (classifiedLabel is not correctLabel):
+                        # calculate tau
+                        tau = ((self.weights[classifiedLabel] - self.weights[correctLabel]) * data + 1) / (2 * (data * data))
+                        tau = min(C, tau)
+                        # adjust data with tau
+                        data = {key: tau * value for key, value in data.items()}
+                        # adjust weights
+                        self.weights[correctLabel] += data
+                        self.weights[classifiedLabel] -= data
+
+            weights.append(self.weights.copy())
+            self.initializeWeightsToZero()
+        
+        def calculateAccuracyForWeight(weight):
+            self.weights = weight
+            correct = 0
+            for _ in range(self.max_iterations):
+                for i in range(len(validationData)):
+                    data = validationData[i]
+                    classifiedLabel = self.classify(data)[0]
+                    correctLabel = validationLabels[i]
+                    if (classifiedLabel is correctLabel):
+                        correct += 1
+            return correct
+
+        # determine the weights with the heighest accuracy
+        mostAccurateWeight = max(weights, key=calculateAccuracyForWeight)
+        self.weights = mostAccurateWeight 
+
+
 
     def classify(self, data ):
         """

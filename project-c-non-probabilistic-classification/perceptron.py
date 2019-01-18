@@ -46,16 +46,19 @@ class PerceptronClassifier:
         datum is a counter from features to values for those features
         (and thus represents a vector a values).
         """
-
-        self.features = trainingData[0].keys() # could be useful later
-        # DO NOT ZERO OUT YOUR WEIGHTS BEFORE STARTING TRAINING, OR
-        # THE AUTOGRADER WILL LIKELY DEDUCT POINTS.
+        self.features = trainingData[0].keys()
 
         for iteration in range(self.max_iterations):
             print "Starting iteration ", iteration, "..."
             for i in range(len(trainingData)):
-                "*** YOUR CODE HERE ***"
-                util.raiseNotDefined()
+                data = trainingData[i]
+                classifiedLabel = self.classify(data)[0]
+                correctLabel = trainingLabels[i]
+
+                # only adjust weight if it is not the correct guess
+                if (classifiedLabel is not correctLabel):
+                    self.weights[correctLabel] += data
+                    self.weights[classifiedLabel] -= data
 
     def classify(self, data ):
         """
@@ -77,9 +80,5 @@ class PerceptronClassifier:
         """
         Returns a list of the 100 features with the greatest weight for some label
         """
-        featuresWeights = []
-
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
-
-        return featuresWeights
+        # sortKeys so that the dictionary is ordered based on heightest weight, then get the first 100 
+        return self.weights[label].sortedKeys()[:100]
