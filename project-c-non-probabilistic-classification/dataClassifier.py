@@ -76,11 +76,31 @@ def enhancedFeatureExtractorDigit(datum):
     ##
     """
     features =  basicFeatureExtractorDigit(datum)
+    result_features = features.copy()
+
+    def isEdge(x, y):
+        current = features[(x,y)]
+
+        # Neighbours
+        left = features[(x-1, y)]
+        right = features[(x+1, y)]
+        up = features[(x, y+1)]
+        down = features[(x, y-1)]
+        if (current == 1):
+            if (left == 0 or right == 0 or up == 0 or down == 0):
+                return True
+        
+        return False
 
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    for x in range(DIGIT_DATUM_WIDTH):
+        for y in range(DIGIT_DATUM_HEIGHT):
+            if (isEdge(x, y)):
+                print 'Got here'
+                result_features[(x,y)] = 2
 
-    return features
+
+    return result_features
 
 
 
