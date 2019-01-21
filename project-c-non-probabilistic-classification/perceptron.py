@@ -52,7 +52,7 @@ class PerceptronClassifier:
             print "Starting iteration ", iteration, "..."
             for i in range(len(trainingData)):
                 data = trainingData[i]
-                classifiedLabel = self.classify(data)[0]
+                classifiedLabel = self.classify([data])[0]
                 correctLabel = trainingLabels[i]
 
                 # only adjust weight if it is not the correct guess

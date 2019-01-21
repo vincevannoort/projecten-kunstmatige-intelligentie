@@ -64,46 +64,43 @@ class MiraClassifier:
         # Implement trainAndTune in mira.py. This method should train a MIRA classifier using each value of C in Cgrid. 
         # Evaluate accuracy on the held-out validation set for each C and choose the C with the highest validation accuracy. 
         # In case of ties, prefer the lowest value of C. Test your MIRA implementation with
-        weights = []
+        training_weights = []
 
         for C in Cgrid:
+            self.initializeWeightsToZero()
             for iteration in range(self.max_iterations):
                 print "Starting iteration ", iteration, "..."
                 for i in range(len(trainingData)):
-                    data = trainingData[i]
-                    classifiedLabel = self.classify(data)[0]
+                    data = trainingData[i].copy()
+                    classifiedLabel = self.classify([data])[0]
                     correctLabel = trainingLabels[i]
 
                     if (classifiedLabel is not correctLabel):
                         # calculate tau
-                        tau = ((self.weights[classifiedLabel] - self.weights[correctLabel]) * data + 1) / (2 * (data * data))
+                        tau = ((self.weights[classifiedLabel] - self.weights[correctLabel]) * data + 1.0) / (2 * (data * data))
                         tau = min(C, tau)
-                        # adjust data with tau
+                        # adjust every value in data with: tau * value
                         data = {key: tau * value for key, value in data.items()}
                         # adjust weights
                         self.weights[correctLabel] += data
                         self.weights[classifiedLabel] -= data
 
-            weights.append(self.weights.copy())
-            self.initializeWeightsToZero()
+            training_weights.append(self.weights.copy())
         
         def calculateAccuracyForWeight(weight):
             self.weights = weight
             correct = 0
-            for _ in range(self.max_iterations):
-                for i in range(len(validationData)):
-                    data = validationData[i]
-                    classifiedLabel = self.classify(data)[0]
-                    correctLabel = validationLabels[i]
-                    if (classifiedLabel is correctLabel):
-                        correct += 1
+            for i in range(len(validationData)):
+                data = validationData[i]
+                classifiedLabel = self.classify([data])[0]
+                correctLabel = validationLabels[i]
+                if (classifiedLabel is correctLabel):
+                    correct += 1
             return correct
 
         # determine the weights with the heighest accuracy
-        mostAccurateWeight = max(weights, key=calculateAccuracyForWeight)
-        self.weights = mostAccurateWeight 
-
-
+        mostAccurateWeight = max(training_weights, key=calculateAccuracyForWeight)
+        self.weights = mostAccurateWeight
 
     def classify(self, data ):
         """
