@@ -150,15 +150,19 @@ def enhancedPacmanFeatures(state, action):
     ghosts_positions = next_state.getGhostPositions()
     ghosts_distances_from_pacman = [util.manhattanDistance(pacman_position, ghosts_position) for ghosts_position in ghosts_positions]
     closest_ghost_distance = min(ghosts_distances_from_pacman) if len(ghosts_distances_from_pacman) else 1.0
+    furthest_ghost_distance = max(ghosts_distances_from_pacman) if len(ghosts_distances_from_pacman) else 1.0
 
     # check food distance
     food_positions = next_state.getFood().asList()
     food_distances_from_pacman = [util.manhattanDistance(pacman_position, food_position) for food_position in food_positions]
     closest_food_distance = min(food_distances_from_pacman) if len(food_distances_from_pacman) else 1.0
+    furthest_food_distance = max(food_distances_from_pacman) if len(food_distances_from_pacman) else 1.0
 
     # set calculated features
-    features['neareast_ghost'] = 1.0 / closest_ghost_distance if (closest_ghost_distance != 0) else closest_ghost_distance
-    features['neareast_food'] = 1.0 / closest_food_distance if (closest_food_distance != 0) else closest_food_distance
+    features['closest_ghost'] = 1.0 / closest_ghost_distance if (closest_ghost_distance != 0) else closest_ghost_distance
+    features['furthest_ghost_distance'] = 1.0 / furthest_ghost_distance if (furthest_ghost_distance != 0) else furthest_ghost_distance
+    features['closest_food'] = 1.0 / closest_food_distance if (closest_food_distance != 0) else closest_food_distance
+    features['furthest_food_distance'] = 1.0 / furthest_food_distance if (furthest_food_distance != 0) else furthest_food_distance
     
     # util.raiseNotDefined()
     return features
