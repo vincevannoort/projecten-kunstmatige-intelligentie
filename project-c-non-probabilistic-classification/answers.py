@@ -13,4 +13,4 @@
 
 
 def q2():
-    return 'b'
+    return 'a'

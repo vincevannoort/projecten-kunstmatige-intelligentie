@@ -199,8 +199,8 @@ def _test():
     n = 1
 #  items = loadDataFile("facedata/facedatatrain", n,60,70)
 #  labels = loadLabelsFile("facedata/facedatatrainlabels", n)
-    items = loadDataFile("digitdata/trainingimages", n,28,28)
-    labels = loadLabelsFile("digitdata/traininglabels", n)
+    items = loadDataFile("data/digitdata/trainingimages", n,28,28)
+    labels = loadLabelsFile("data/digitdata/traininglabels", n)
     for i in range(1):
         print items[i]
         print items[i]

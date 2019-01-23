@@ -92,7 +92,6 @@ def enhancedFeatureExtractorDigit(datum):
         
         return False
 
-    "*** YOUR CODE HERE ***"
     for x in range(DIGIT_DATUM_WIDTH):
         for y in range(DIGIT_DATUM_HEIGHT):
             if (isEdge(x, y)):
@@ -164,7 +163,6 @@ def enhancedPacmanFeatures(state, action):
     features['closest_food'] = 1.0 / closest_food_distance if (closest_food_distance != 0) else closest_food_distance
     features['furthest_food_distance'] = 1.0 / furthest_food_distance if (furthest_food_distance != 0) else furthest_food_distance
     
-    # util.raiseNotDefined()
     return features
 
 
