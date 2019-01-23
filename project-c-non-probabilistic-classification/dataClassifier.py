@@ -23,6 +23,7 @@ import mira
 import samples
 import sys
 import util
+import math
 from pacman import GameState
 
 TEST_SET_SIZE = 100
@@ -185,6 +186,11 @@ def enhancedPacmanFeatures(state, action):
     closest_ghost_distance = min(ghosts_distances_from_pacman) if len(ghosts_distances_from_pacman) else 1.0
     furthest_ghost_distance = max(ghosts_distances_from_pacman) if len(ghosts_distances_from_pacman) else 1.0
 
+    # add ghosts
+    for index in xrange(min(len(ghosts_positions), 1)):
+        # features[("ghost", index)] = 5.0 / ghosts_distances_from_pacman[index] if ghosts_distances_from_pacman[index] != 0 else 0
+        features[("ghost", index)] = math.log(ghosts_distances_from_pacman[index]) if ghosts_distances_from_pacman[index] != 0 else 0
+
     # check food distance
     food_positions = next_state.getFood().asList()
     food_distances_from_pacman = [util.manhattanDistance(pacman_position, food_position) for food_position in food_positions]
@@ -192,10 +198,10 @@ def enhancedPacmanFeatures(state, action):
     furthest_food_distance = max(food_distances_from_pacman) if len(food_distances_from_pacman) else 1.0
 
     # set calculated features
-    features['closest_ghost'] = 1.0 / closest_ghost_distance if (closest_ghost_distance != 0) else closest_ghost_distance
-    features['furthest_ghost_distance'] = 1.0 / furthest_ghost_distance if (furthest_ghost_distance != 0) else furthest_ghost_distance
-    features['closest_food'] = 1.0 / closest_food_distance if (closest_food_distance != 0) else closest_food_distance
-    features['furthest_food_distance'] = 1.0 / furthest_food_distance if (furthest_food_distance != 0) else furthest_food_distance
+    features['closest_ghost'] = math.log(closest_ghost_distance) if (closest_ghost_distance != 0) else 0
+    features['furthest_ghost_distance'] = math.log(furthest_ghost_distance) if (furthest_ghost_distance != 0) else 0
+    features['closest_food'] = math.log(closest_food_distance) if (closest_food_distance != 0) else 0
+    features['furthest_food_distance'] = math.log(furthest_food_distance) if (furthest_food_distance != 0) else 0
     
     return features
 

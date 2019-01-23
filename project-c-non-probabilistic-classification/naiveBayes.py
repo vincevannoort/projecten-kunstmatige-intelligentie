@@ -135,10 +135,14 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
         for datum in testData:
             posterior = self.calculateLogJointProbabilities(datum)   
 
-            #kans:  P(face en inputs)/ (P(face en inputs) + P(not-face en inputs)).
-            guesses.append(1) if (posterior[1] / (posterior[1] + posterior[0])< threshold) else guesses.append(0)      
+            # only work with adaptable decision threshold for faces
+            if len(self.legalLabels) is 2:
+                guesses.append(1) if (posterior[1] / (posterior[1] + posterior[0])< threshold) else guesses.append(0)      
 
-            #guesses.append(posterior.argMax())
+            # do normal for digits
+            else:
+                guesses.append(posterior.argMax())
+                
             self.posteriors.append(posterior)
         return guesses
 
