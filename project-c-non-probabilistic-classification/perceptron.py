@@ -14,6 +14,7 @@
 
 # Perceptron implementation
 import util
+import random
 PRINT = True
 
 class PerceptronClassifier:
@@ -50,6 +51,9 @@ class PerceptronClassifier:
 
         for iteration in range(self.max_iterations):
             print "Starting iteration ", iteration, "..."
+            training = zip(trainingData, trainingLabels)
+            random.shuffle(training)
+            trainingData, trainingLabels = zip(*training)
             for i in range(len(trainingData)):
                 data = trainingData[i]
                 classifiedLabel = self.classify([data])[0]

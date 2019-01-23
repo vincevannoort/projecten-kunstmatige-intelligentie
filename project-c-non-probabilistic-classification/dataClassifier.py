@@ -75,33 +75,67 @@ def enhancedFeatureExtractorDigit(datum):
 
     ##
     """
-    features =  basicFeatureExtractorDigit(datum)
-    result_features = features.copy()
+    features = basicFeatureExtractorDigit(datum)
 
-    def isEdge(x, y):
-        current = features[(x,y)]
+    # def floodfill(x, y, black = 0, white = 1):
+    #     stack = [ (x, y) ]
+    #     visited = [ (x, y) ]
+    #     amount_of_black_space = 
+    #     while len(stack) > 0:
+    #         x, y = stack.pop()
 
-        # Neighbours
-        left = features[(x-1, y)]
-        right = features[(x+1, y)]
-        up = features[(x, y+1)]
-        down = features[(x, y-1)]
-        if (current == 1):
-            if (left == 0 or right == 0 or up == 0 or down == 0):
-                return True
+    #         # outside screen, since it is not a hole we should stop
+    #         if (x < 0 or x > DIGIT_DATUM_WIDTH or y < 0 or y > DIGIT_DATUM_HEIGHT):
+    #             amount_of_black_space = -1
+    #             break
+
+    #         if surface[x][y] == white:
+    #             continue
+                
+    #         surface[x][y] = newColor
+    #         if ((x + 1, y) not in ): 
+    #             (stack.append( (x + 1, y) )  # right
+    #         if ((x - 1, y) not in ): 
+    #             (stack.append( (x - 1, y) )  # left
+    #         if ((x, y + 1) not in ): 
+    #             (stack.append( (x, y + 1) )  # down
+    #         if ((x, y - 1) not in ): 
+    #             (stack.append( (x, y - 1) )  # up
+
+    #     if amount_of_black_space == -1:
+    #         return False
+    #     else if amount_of_black_space > 20:
+    #         print("hole found of size: " + amount_of_black_space)
+    #         return True
+    #     else:
+    #         return False
+    
+    def hole(features, x, y, visited):
+        if ((x,y) in visited):
+            return True
+        
+        visited.append((x,y))
+
+        if (x < 0 or x > DIGIT_DATUM_WIDTH or y < 0 or y > DIGIT_DATUM_HEIGHT):
+            return False
+
+        if (features[(x,y)] == 1):
+            return True
+        
+        if (hole(features, x-1, y, visited) and hole(features, x+1, y, visited) and hole(features, x, y-1, visited) and hole(features, x, y+1, visited)):
+            return True
         
         return False
 
-    for x in range(DIGIT_DATUM_WIDTH):
-        for y in range(DIGIT_DATUM_HEIGHT):
-            if (isEdge(x, y)):
-                print 'Got here'
-                result_features[(x,y)] = 2
+    features['hole'] = 0
 
+    for y in range(DIGIT_DATUM_HEIGHT):
+        for x in range(DIGIT_DATUM_WIDTH):
+            if (features[(x,y)] == 0):
+                if (hole(features, x, y, [])):
+                    features['hole'] = 1
 
-    return result_features
-
-
+    return features
 
 def basicFeatureExtractorPacman(state):
     """
