@@ -64,7 +64,7 @@ class MiraClassifier:
         # Implement trainAndTune in mira.py. This method should train a MIRA classifier using each value of C in Cgrid. 
         # Evaluate accuracy on the held-out validation set for each C and choose the C with the highest validation accuracy. 
         # In case of ties, prefer the lowest value of C. Test your MIRA implementation with
-        training_weights = []
+        weights_and_C = []
 
         for C in Cgrid:
             self.initializeWeightsToZero()
@@ -85,10 +85,13 @@ class MiraClassifier:
                         self.weights[correctLabel] += data
                         self.weights[classifiedLabel] -= data
 
-            training_weights.append(self.weights.copy())
+            weights_and_C.append((self.weights.copy(), C))
         
-        def calculateAccuracyForWeight(weight):
+        def calculateAccuracyForWeight(weight_and_C):
+            weight = weight_and_C[0]
+            C = weight_and_C[1]
             self.weights = weight
+            self.C = C
             correct = 0
             for i in range(len(validationData)):
                 data = validationData[i]
@@ -99,8 +102,9 @@ class MiraClassifier:
             return correct
 
         # determine the weights with the heighest accuracy
-        mostAccurateWeight = max(training_weights, key=calculateAccuracyForWeight)
+        (mostAccurateWeight, mostAccurateC) = max(weights_and_C, key=calculateAccuracyForWeight)
         self.weights = mostAccurateWeight
+        self.C = mostAccurateC
 
     def classify(self, data ):
         """
