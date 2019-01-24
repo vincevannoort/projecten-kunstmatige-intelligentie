@@ -452,12 +452,10 @@ def runClassifier(args, options):
     print "Training..."
     classifier.train(trainingData, trainingLabels, validationData, validationLabels)
     print "Validating..."
-    print "C:", classifier.C
     guesses = classifier.classify(validationData)
     correct = [guesses[i] == validationLabels[i] for i in range(len(validationLabels))].count(True)
     print str(correct), ("correct out of " + str(len(validationLabels)) + " (%.1f%%).") % (100.0 * correct / len(validationLabels))
     print "Testing..."
-    print "C:", classifier.C
     guesses = classifier.classify(testData)
     correct = [guesses[i] == testLabels[i] for i in range(len(testLabels))].count(True)
     print str(correct), ("correct out of " + str(len(testLabels)) + " (%.1f%%).") % (100.0 * correct / len(testLabels))
