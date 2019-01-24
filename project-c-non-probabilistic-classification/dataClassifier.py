@@ -77,39 +77,6 @@ def enhancedFeatureExtractorDigit(datum):
     ##
     """
     features = basicFeatureExtractorDigit(datum)
-
-    # def floodfill(x, y, black = 0, white = 1):
-    #     stack = [ (x, y) ]
-    #     visited = [ (x, y) ]
-    #     amount_of_black_space = 
-    #     while len(stack) > 0:
-    #         x, y = stack.pop()
-
-    #         # outside screen, since it is not a hole we should stop
-    #         if (x < 0 or x > DIGIT_DATUM_WIDTH or y < 0 or y > DIGIT_DATUM_HEIGHT):
-    #             amount_of_black_space = -1
-    #             break
-
-    #         if surface[x][y] == white:
-    #             continue
-                
-    #         surface[x][y] = newColor
-    #         if ((x + 1, y) not in ): 
-    #             (stack.append( (x + 1, y) )  # right
-    #         if ((x - 1, y) not in ): 
-    #             (stack.append( (x - 1, y) )  # left
-    #         if ((x, y + 1) not in ): 
-    #             (stack.append( (x, y + 1) )  # down
-    #         if ((x, y - 1) not in ): 
-    #             (stack.append( (x, y - 1) )  # up
-
-    #     if amount_of_black_space == -1:
-    #         return False
-    #     else if amount_of_black_space > 20:
-    #         print("hole found of size: " + amount_of_black_space)
-    #         return True
-    #     else:
-    #         return False
     
     def hole(features, x, y, visited):
         if ((x,y) in visited):
