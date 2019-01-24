@@ -165,9 +165,9 @@ def enhancedPacmanFeatures(state, action):
     furthest_food_distance = max(food_distances_from_pacman) if len(food_distances_from_pacman) else 1.0
 
     # set calculated features
-    features['closest_ghost'] = 1.0 / closest_ghost_distance if (closest_ghost_distance != 0) else 0
+    features['closest_ghost_distance'] = 1.0 / closest_ghost_distance if (closest_ghost_distance != 0) else 0
     features['furthest_ghost_distance'] = 1.0 / furthest_ghost_distance if (furthest_ghost_distance != 0) else 0
-    features['closest_food'] = 1.0 / closest_food_distance if (closest_food_distance != 0) else 0
+    features['closest_food_distance'] = 1.0 / closest_food_distance if (closest_food_distance != 0) else 0
     features['furthest_food_distance'] = 1.0 / furthest_food_distance if (furthest_food_distance != 0) else 0
     
     return features
