@@ -155,7 +155,6 @@ def enhancedPacmanFeatures(state, action):
 
     # add ghosts
     for index in xrange(min(len(ghosts_positions), 1)):
-        # features[("ghost", index)] = 5.0 / ghosts_distances_from_pacman[index] if ghosts_distances_from_pacman[index] != 0 else 0
         features[("ghost", index)] = math.log(ghosts_distances_from_pacman[index]) if ghosts_distances_from_pacman[index] != 0 else 0
 
     # check food distance
