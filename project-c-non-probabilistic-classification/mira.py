@@ -117,4 +117,11 @@ class MiraClassifier:
             guesses.append(vectors.argMax())
         return guesses
 
+    def findHighWeightFeatures(self, label):
+        """
+        Returns a list of the 100 features with the greatest weight for some label
+        """
+        # sortKeys so that the dictionary is ordered based on heightest weight, then get the first 100
+        return self.weights[label].sortedKeys()[:100]
+
 
